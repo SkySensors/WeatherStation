@@ -1,11 +1,15 @@
+#include <Base64.h>
+#include <TinyGPS++.h>
+
 #include "Libraries/dht/DHT_U.h"
 #include "Libraries/dht/DHT.h"
+#include "structs.hpp"
 
-DHT dht(7, DHT11);
+TinyGPSPlus gps;
+DHT dht(7, AM2301);
 
 float AnalogReadTemperaturCelsius(int analogPin)
 {
-    dht.begin(55);
     static float R1 = 10000;
     static float c1 = 1.009249522e-03, c2 = 2.378405444e-04, c3 = 2.019202697e-07;
 
@@ -42,25 +46,78 @@ float ReadTemp()
 void setup() 
 {
     Serial.begin(9600);
+    Serial3.begin(9600);
+    dht.begin(55);
+    // Serial.begin(9600);
+    // Serial3.begin(115200);
 }
 
 void loop() 
-{
-    Serial.print("Temperature 1: "); 
-    Serial.print(AnalogReadTemperaturCelsius(A0));
-    Serial.print(" C");   
+{    
+    //Serial.read();
+    // Serial.print("Temperature 1: "); 
+    // Serial.print(AnalogReadTemperaturCelsius(A0));
+    // Serial.print(" C");   
 
-    Serial.print(", Light 1: "); 
-    Serial.print(AnalogReadLightLumen(A1));
-    Serial.print(" lumen");   
+    // Serial.print(", Light 1: "); 
+    // Serial.print(AnalogReadLightLumen(A1));
+    // Serial.print(" lumen");   
 
-    Serial.print(", Temp: "); 
-    Serial.print(ReadTemp());
-    Serial.println("C");   
+    // Serial.print(", Temp: "); 
+    // Serial.print(ReadTemp());
+    // Serial.println("C");   
 
-    Serial.print(", Humidity: "); 
-    Serial.print(ReadHumidity());
-    Serial.println("%");   
+    // Serial.print(", Humidity: "); 
+    // Serial.print(ReadHumidity());
+    // Serial.println("%");   
 
-    delay(2000);
+    // Sensor sensors[3] = { {ReadTemp(), SensorType::Temperature}, {AnalogReadLightLumen(A1), SensorType::Light}, {ReadHumidity(), SensorType::Humidity} };
+    // WheatherStation wheatherStation("00:00:00:00:00", { 20, 10 }, sensors, 3);
+
+    while (Serial3.available() > 0)
+    {
+        gps.encode(Serial3.read());
+        if (gps.location.isUpdated())
+        {
+            Serial.print("Latitude= "); 
+            Serial.print(gps.location.lat(), 6);
+            Serial.print(" Longitude= "); 
+            Serial.println(gps.location.lng(), 6);
+        }
+    }
+
+    // char* data = reinterpret_cast<char*>(&wheatherStation);
+
+    // int inputStringLength = sizeof(WheatherStation);
+    // int encodedLength = Base64.encodedLength(inputStringLength);
+    // char encodedString[encodedLength + 1];
+    // Base64.encode(encodedString, data, inputStringLength);
+
+    // Serial3.println(encodedString);
 }
+
+// void serialEvent3() {
+//   int index = 0;
+
+//   while (Serial3.available()) {
+//     index++;
+//     Serial3.write("Hello world")
+
+//     char inChar = Serial3.read();
+//     Serial.write(inChar);
+//     inString += inChar;
+//     if (inChar == ']') {
+//       if (inString.indexOf("[ON]")>0) {
+//         digitalWrite(PIN_LED, HIGH);
+//       }
+//       else if (inString.indexOf("[OFF]")>0) {
+//         digitalWrite(PIN_LED, LOW);
+//       }
+//       else
+//       {
+//         Serial.println("Wrong command");
+//       }
+//       inString = "";
+//     }
+//   }
+// }
