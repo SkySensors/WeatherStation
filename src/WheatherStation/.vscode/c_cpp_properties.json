@@ -18,11 +18,15 @@
             "includePath": [
                 "C:\\Users\\Jonas\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\cores\\arduino",
                 "C:\\Users\\Jonas\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\variants\\mega",
-                "C:\\Users\\Jonas\\Documents\\Arduino\\libraries\\Base64\\src",
-                "C:\\Users\\Jonas\\Documents\\Arduino\\libraries\\Adafruit_Unified_Sensor",
+                "C:\\Users\\Jonas\\Documents\\Arduino\\libraries\\TinyGPSPlus\\src",
                 "C:\\Users\\Jonas\\Documents\\Arduino\\libraries\\DHT_sensor_library",
-                "C:\\Users\\Jonas\\Documents\\Arduino\\libraries\\LiquidCrystal\\src",
-                "C:\\Users\\Jonas\\Documents\\Arduino\\libraries\\TinyGPSPlus\\src"
+                "C:\\Users\\Jonas\\Documents\\Arduino\\libraries\\Adafruit_Unified_Sensor",
+                "C:\\Users\\Jonas\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\libraries\\Wire\\src",
+                "C:\\Users\\Jonas\\Documents\\Arduino\\libraries\\DS3231",
+                "C:\\Users\\Jonas\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\avr\\1.8.6\\libraries\\SPI\\src",
+                "C:\\Users\\Jonas\\Documents\\Arduino\\libraries\\Ethernet2\\src",
+                "C:\\Users\\Jonas\\Documents\\Arduino\\libraries\\ArduinoHttpClient\\src",
+                "C:\\Users\\Jonas\\Documents\\Arduino\\libraries\\ArduinoJson\\src",
                 "c:\\users\\jonas\\appdata\\local\\arduino15\\packages\\arduino\\tools\\avr-gcc\\7.3.0-atmel3.6.1-arduino7\\lib\\gcc\\avr\\7.3.0\\include",
                 "c:\\users\\jonas\\appdata\\local\\arduino15\\packages\\arduino\\tools\\avr-gcc\\7.3.0-atmel3.6.1-arduino7\\lib\\gcc\\avr\\7.3.0\\include-fixed",
                 "c:\\users\\jonas\\appdata\\local\\arduino15\\packages\\arduino\\tools\\avr-gcc\\7.3.0-atmel3.6.1-arduino7\\avr\\include"
