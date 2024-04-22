@@ -80,7 +80,7 @@ struct GpsLocation
     double longitude;
 };
 
-struct WheatherStation
+struct WeatherStation
 {
     String macAddress;
     GpsLocation gpsLocation;

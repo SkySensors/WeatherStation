@@ -12,7 +12,7 @@ public:
 public:
     // Used to make handshake with API
     // Returns timeslot if successfull or { 0, 0 } when it fails
-    TimeSlot MakeHandshake(WheatherStation& wheatherStation);
+    TimeSlot MakeHandshake(WeatherStation& weatherStation);
 
     // Used to send sensor value mesurements to API
     // Returns true if successfull

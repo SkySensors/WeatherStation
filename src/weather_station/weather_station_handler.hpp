@@ -14,7 +14,7 @@ private:
     GpsHandler& gpsHandler;
 
 private:
-    WheatherStation wheatherStation;
+    WeatherStation weatherStation;
     TimeSlot timeSlot;
     SensorValues* sensorValuesArray;
     int sensorValueSize = 0;
@@ -33,7 +33,7 @@ public:
     void TakeMeasurements();
 
     // Used to send all the sensor measurements to the API and clear the buffer
-    void SendMesurementsToServer();
+    void SendMeasurementsToServer();
 
 public:
     // Returns time slot

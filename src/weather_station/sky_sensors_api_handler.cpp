@@ -6,10 +6,10 @@ SkySensorsAPIHandler::SkySensorsAPIHandler(Client &client, const char* baseUrl, 
 {
 }
 
-TimeSlot SkySensorsAPIHandler::MakeHandshake(WheatherStation &wheatherStation)
+TimeSlot SkySensorsAPIHandler::MakeHandshake(WeatherStation &weatherStation)
 {
     String json = "";
-    wheatherStation.ToJson(json);
+    weatherStation.ToJson(json);
     String response = SendPostRequest("/api/weatherstation/handshake", json);
     
     if (response.length() == 0)

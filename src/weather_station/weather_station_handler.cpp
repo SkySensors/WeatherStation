@@ -5,7 +5,7 @@ WeatherStationHandler::WeatherStationHandler(
     SensorHandler& sh, SkySensorsAPIHandler& ssApi, RTCHandler& rtc, GpsHandler& gps, String macAddress, int sensorValueSize)
     : sensorHandler(sh), skySensorsAPIHandler(ssApi), rtcHandler(rtc), gpsHandler(gps), sensorValueSize(sensorValueSize)
 {
-    wheatherStation = { macAddress, { 0, 0 }, sh.GetSensorDataArray(), SENSOR_AMOUNT };
+    weatherStation = { macAddress, { 0, 0 }, sh.GetSensorDataArray(), SENSOR_AMOUNT };
 
     sensorValuesArray = new SensorValues[SENSOR_AMOUNT];
     for (int i = 0; i < SENSOR_AMOUNT; i++)
@@ -25,11 +25,11 @@ WeatherStationHandler::~WeatherStationHandler()
 
 bool WeatherStationHandler::MakeHandshakeWithAPI()
 {
-    // Set last known GPS location to wheatherStation struct
-    wheatherStation.gpsLocation = gpsHandler.ReadGpsLocationFromEEPROM();
+    // Set last known GPS location to weatherStation struct
+    weatherStation.gpsLocation = gpsHandler.ReadGpsLocationFromEEPROM();
 
     // Make handshake with API
-    timeSlot = skySensorsAPIHandler.MakeHandshake(wheatherStation);
+    timeSlot = skySensorsAPIHandler.MakeHandshake(weatherStation);
     if (timeSlot.intervalSeconds == 0)
     {
         LogHandler.LogError(200, 5, "Failed to make handshake with API.");
@@ -41,7 +41,7 @@ bool WeatherStationHandler::MakeHandshakeWithAPI()
 
 void WeatherStationHandler::TakeMeasurements()
 {
-    for (int i = 0; i < wheatherStation.sensorAmount; i++)
+    for (int i = 0; i < weatherStation.sensorAmount; i++)
     {
         SensorValues& sensorValues = sensorValuesArray[i];
         SensorValue& sensorValue = sensorValues.sensorValues[sensorValues.sensorValueAmount];
@@ -59,9 +59,9 @@ void WeatherStationHandler::TakeMeasurements()
     }
 }
 
-void WeatherStationHandler::SendMesurementsToServer()
+void WeatherStationHandler::SendMeasurementsToServer()
 {
-    for (int i = 0; i < wheatherStation.sensorAmount; i++)
+    for (int i = 0; i < weatherStation.sensorAmount; i++)
     {
         if (!skySensorsAPIHandler.SendMesurementsToServer(sensorValuesArray[i]))
         {

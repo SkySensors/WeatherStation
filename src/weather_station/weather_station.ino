@@ -93,7 +93,7 @@ void loop()
     TimeSlot& timeSlot = weatherStationHandler->GetTimeSlot();
     if (sendMeasurementsTrigger.ShouldTrigger(hourSeconds % timeSlot.intervalSeconds, timeSlot.secondToTriggerAt))
     {
-        weatherStationHandler->SendMesurementsToServer();
+        weatherStationHandler->SendMeasurementsToServer();
     }
 
     // If no GPS location is found, then try to get the gps location from the satellites
