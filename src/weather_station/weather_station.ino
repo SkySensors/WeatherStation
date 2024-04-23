@@ -29,7 +29,7 @@
 NetworkHandler* networkHandler;
 SkySensorsAPIHandler* skySensorsAPIHandler;
 SensorHandler* sensorHandler;
-RTCHandler* rtcHandler;
+RtcHandler* rtcHandler;
 WeatherStationHandler* weatherStationHandler;
 GpsHandler* gpsHandler;
 CountTrigger rtcSyncTrigger;
@@ -63,7 +63,7 @@ void setup()
     sensorHandler = new SensorHandler(LIGHT_SENSOR_ANALOG_PIN, DHT_SENSOR_PIN);
     sensorHandler->Initialize();
 
-    rtcHandler = new RTCHandler(*skySensorsAPIHandler);
+    rtcHandler = new RtcHandler(*skySensorsAPIHandler);
     rtcHandler->Initialize();
 
     gpsHandler = new GpsHandler();
