@@ -98,3 +98,23 @@ public:
         serializeJson(doc, output);
     }
 };
+
+struct HttpResponse
+{
+    int status;
+    String content;
+
+public:
+    bool IsSuccess()
+    {
+        return status >= 200 && status <= 299;
+    }
+    bool IsClientError()
+    {
+        return status >= 500;
+    }
+    bool IsClientError()
+    {
+        return status >= 400 && status <= 499;
+    }
+};

@@ -19,33 +19,33 @@ public:
     {
         String json = "";
         weatherStation.ToJson(json);
-        String response = SendPostRequest("/api/weatherstation/handshake", json);
+        HttpResponse httpResponse = SendPostRequest("/api/weatherstation/handshake", json);
         
-        if (response.length() == 0)
+        if (!httpResponse.IsSuccess())
         {
             return { 0, 0 };
         }
 
         TimeSlot timeSlot;
-        timeSlot.FromJson(response);
+        timeSlot.FromJson(httpResponse.content);
         return timeSlot;
     }
 
     // Used to send sensor value mesurements to API
-    // Returns true if successfull
-    bool SendMesurementsToServer(SensorValues& sensorValues)
+    // Returns HttpContent
+    HttpContent SendMesurementsToServer(SensorValues& sensorValues)
     {
         String json = "";
         sensorValues.ToJson(json);
         json = "[" + json + "]";
-        return SendPostRequest("/api/weatherstation", json).length() != 0;
+        return SendPostRequest("/api/weatherstation", json);
     }
 
     // Returns current time from server in unix format
     unsigned long GetServerTimeInUnixFormat()
     {
-        String response = SendGetRequest("/api/time");
-        return response.length() != 0 ? (unsigned long)response.substring(0, 10).toDouble() : -1;
+        HttpResponse httpResponse = SendGetRequest("/api/time");
+        return httpResponse.IsSuccess() ? (unsigned long)httpResponse.content.substring(0, 10).toDouble() : -1;
     }
 
 private:
@@ -54,33 +54,28 @@ private:
     String SendGetRequest(const char* path)
     {
         client.get(path);
-        int statusCode = client.responseStatusCode();
-        String response = client.responseBody();
+        HttpResponse httpResponse = { client.responseStatusCode(), client.responseBody() };
         client.stop();
         
-        if (statusCode < 200 || statusCode > 299)
+        if (!httpResponse.IsSuccess())
         {
             LogHandler.LogError(0, 0, "GET request to " + String(path) + " failed with code " + String(statusCode));
-            return "";
         }
-        return response.length() != 0 ? response : "OK";
+        return httpResponse;
     }
 
     // Used to send a POST request
     // Returns content or OK if successfull or "" on a failure
-    String SendPostRequest(const char* path, String jsonBody)
+    HttpResponse SendPostRequest(const char* path, String jsonBody)
     {
         const char* contentType = "application/json";
         client.post(path, contentType, jsonBody);
-        int statusCode = client.responseStatusCode();
-        String response = client.responseBody();
+        HttpResponse httpResponse = { client.responseStatusCode(), client.responseBody() };
         client.stop();
-        
-        if (statusCode < 200 || statusCode > 299)
+        if (!httpResponse.IsSuccess())
         {
             LogHandler.LogError(0, 0, "POST request to " + String(path) + " failed with code " + String(statusCode) + " json: \n" + String(jsonBody));
-            return "";
         }
-        return response.length() != 0 ? response : "OK";
+        return httpResponse;
     }
 };

@@ -108,7 +108,6 @@ private:
             i++;
             j += 2;
         }
-        this->macAddress.substring(0, 2);
     }
 
     // Returns IP in string format

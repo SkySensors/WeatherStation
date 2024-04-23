@@ -77,6 +77,7 @@ public:
             }
             else
             {
+                sensorValues.sensorValueAmount = 0;
                 LogHandler.LogError(500, 5, "Buffer overload, sensorValues has reached its limit!");
             }
         }
@@ -87,9 +88,14 @@ public:
     {
         for (int i = 0; i < weatherStation.sensorAmount; i++)
         {
-            if (!skySensorsAPIHandler.SendMesurementsToServer(sensorValuesArray[i]))
+            HttpResponse httpResponse = skySensorsAPIHandler.SendMesurementsToServer(sensorValuesArray[i]);
+            if (httpResponse.IsClientError())
             {
-                LogHandler.LogError(50, 3, "Failed to send mesurements to server.");
+                LogHandler.LogError(25, 25, "Failed to send mesurements due an unexpected HttpRequest.");
+            }
+            else if (httpResponse.IsClientError())
+            {
+                LogHandler.LogError(50, 3, "Failed to send mesurements due to server errors.");
                 continue;
             }
             sensorValuesArray[i].sensorValueAmount = 0;
