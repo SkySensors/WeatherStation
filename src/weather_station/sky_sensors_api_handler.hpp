@@ -33,7 +33,7 @@ public:
 
     // Used to send sensor value mesurements to API
     // Returns HttpContent
-    HttpContent SendMesurementsToServer(SensorValues& sensorValues)
+    HttpResponse SendMesurementsToServer(SensorValues& sensorValues)
     {
         String json = "";
         sensorValues.ToJson(json);
@@ -51,7 +51,7 @@ public:
 private:
     // Used to send a GET request
     // Returns content or OK if successfull or "" on a failure
-    String SendGetRequest(const char* path)
+    HttpResponse SendGetRequest(const char* path)
     {
         client.get(path);
         HttpResponse httpResponse = { client.responseStatusCode(), client.responseBody() };
@@ -59,7 +59,7 @@ private:
         
         if (!httpResponse.IsSuccess())
         {
-            LogHandler.LogError(0, 0, "GET request to " + String(path) + " failed with code " + String(statusCode));
+            LogHandler.LogError(0, 0, "GET request to " + String(path) + " failed with code " + String(httpResponse.status));
         }
         return httpResponse;
     }
@@ -74,7 +74,7 @@ private:
         client.stop();
         if (!httpResponse.IsSuccess())
         {
-            LogHandler.LogError(0, 0, "POST request to " + String(path) + " failed with code " + String(statusCode) + " json: \n" + String(jsonBody));
+            LogHandler.LogError(0, 0, "POST request to " + String(path) + " failed with code " + String(httpResponse.status) + " json: \n" + String(jsonBody));
         }
         return httpResponse;
     }

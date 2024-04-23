@@ -1,5 +1,5 @@
 #pragma once
-#define ESP32
+//#define ESP32
 
 #ifdef ESP32
 #define MAX_ANALOG_VALUE 4096
