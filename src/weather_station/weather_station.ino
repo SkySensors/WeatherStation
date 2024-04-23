@@ -7,23 +7,29 @@
 #include "count_trigger.hpp"
 #include "gps_handler.hpp"
 
-#define ETHERNET_SHEILD_MAC "90:A2:DA:10:55:88"
-#define WIFI_SSID "ssid"
-#define WIFI_PASSWORD "passowrd"
 #define SENSOR_VALUE_BUFFER_SIZE 60
 #define SKY_SENSORS_API_URL "skyapi.viften.elkok.dk"
 #define SKY_SENSORS_API_PORT 888
+
+#ifdef ESP32
+#define WIFI_SSID "NETGEAR"
+#define WIFI_PASSWORD "Jonas2208"
+#define LIGHT_SENSOR_ANALOG_PIN 36
+#define DHT_SENSOR_PIN 27
+#define INIT_LED_PIN 32
+#define ERROR_LED_PIN 33
+#else
+#define ETHERNET_SHEILD_MAC "90:A2:DA:10:55:88"
 #define LIGHT_SENSOR_ANALOG_PIN A0
 #define DHT_SENSOR_PIN 7
 #define INIT_LED_PIN 13
 #define ERROR_LED_PIN 12
-#define GPS_SOFTWARE_SERIAL_RX_PIN 3
-#define GPS_SOFTWARE_SERIAL_TX_PIN 4
+#endif
 
 NetworkHandler* networkHandler;
 SkySensorsAPIHandler* skySensorsAPIHandler;
 SensorHandler* sensorHandler;
-RTCHandler* rtcHandler;
+RtcHandler* rtcHandler;
 WeatherStationHandler* weatherStationHandler;
 GpsHandler* gpsHandler;
 CountTrigger rtcSyncTrigger;
@@ -34,14 +40,18 @@ void setup()
 {
     // Initialize LogHandler
     LogHandler.Initialize(INIT_LED_PIN, ERROR_LED_PIN);
-
+    LogHandler.LogInfo("Starting...");
+    
     // Set status led to on to indicate that the weather station is being initialized
     LogHandler.SetInitLedStatus(HIGH); 
     
     // Initializes the network modules
     networkHandler = new NetworkHandler();
+#ifdef ESP32
+    while(!networkHandler->InitializeEsp32Wifi(WIFI_SSID, WIFI_PASSWORD)) 
+#else
     while(!networkHandler->InitializeEthernetSheild(ETHERNET_SHEILD_MAC))
-    //while(!networkHandler->InitializeEsp32Wifi(WIFI_SSID, WIFI_PASSWORD)) 
+#endif
     { 
         delay(1000); 
     }
@@ -53,10 +63,10 @@ void setup()
     sensorHandler = new SensorHandler(LIGHT_SENSOR_ANALOG_PIN, DHT_SENSOR_PIN);
     sensorHandler->Initialize();
 
-    rtcHandler = new RTCHandler(*skySensorsAPIHandler);
+    rtcHandler = new RtcHandler(*skySensorsAPIHandler);
     rtcHandler->Initialize();
 
-    gpsHandler = new GpsHandler(GPS_SOFTWARE_SERIAL_RX_PIN, GPS_SOFTWARE_SERIAL_TX_PIN);
+    gpsHandler = new GpsHandler();
     gpsHandler->Initialize();
 
     weatherStationHandler = new WeatherStationHandler(
