@@ -1,6 +1,6 @@
 #include "network_handler.hpp"
 #include "log_handler.hpp"
-#ifdef defined(ESP32)
+#ifdef ESP32
 #include "WiFi.h"
 #endif
 
@@ -41,7 +41,7 @@ bool NetworkHandler::InitializeEthernetSheild(String macAddress)
 
 bool NetworkHandler::InitializeEsp32Wifi(const char *ssid, const char *password)
 {
-#ifdef defined(ESP32)
+#ifdef ESP32
     if (WiFi.begin(ssid, password) == 0)
     {
         LogHandler.LogError(1000, 1, "Failed to initialize ESP32 WiFi .");
@@ -57,7 +57,7 @@ bool NetworkHandler::InitializeEsp32Wifi(const char *ssid, const char *password)
         delay(500);
     }
 
-    mac = WiFi.macAddress();
+    macAddress = WiFi.macAddress();
     ip = WiFi.localIP();
     LogHandler.LogInfo("ESP32 WiFi has been initialized, ip is " + GetIpAsString());
 
@@ -65,7 +65,7 @@ bool NetworkHandler::InitializeEsp32Wifi(const char *ssid, const char *password)
     {
         client = new WiFiClient();
     }
-    return false;
+    return true;
 #else
     LogHandler.LogError(1000, 1, "ESP32 is not defined.");
     return false;

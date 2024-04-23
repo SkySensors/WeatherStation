@@ -61,7 +61,7 @@ String SkySensorsAPIHandler::SendPostRequest(const char* path, String jsonBody)
     
     if (statusCode < 200 || statusCode > 299)
     {
-        LogHandler.LogError(0, 0, "POST request to " + String(path) + " failed with code " + String(statusCode));
+        LogHandler.LogError(0, 0, "POST request to " + String(path) + " failed with code " + String(statusCode) + " json: \n" + String(jsonBody));
         return "";
     }
     return response.length() != 0 ? response : "OK";

@@ -5,11 +5,7 @@ class GpsHandler
 {
 private:
     TinyGPSPlus gps;
-    SoftwareSerial softwareSerial;
     bool isNewGpsLocationFound = false;
-
-public:
-    GpsHandler(byte rxSoftwarePin, byte txSoftwarePin);
 
 public:
     // Used to initialize the GpsHandler

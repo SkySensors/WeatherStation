@@ -35,7 +35,7 @@ float SensorHandler::ReadLightSensor()
     int vo = analogRead(lightSensorAnalogPin);
 
     // Conversion analog to voltage
-    float vout = float(vo) * (vin / float(1023));
+    float vout = float(vo) * (vin / float(MAX_ANALOG_VALUE));
 
     // Conversion voltage to resistance
     float rldr = (r * (vin - vout))/vout; 

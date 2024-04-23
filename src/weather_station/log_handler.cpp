@@ -4,7 +4,7 @@ void LogHandler::Initialize(byte initLedPin, byte errorLedPin)
 {
     this->initLedPin = initLedPin;
     this->errorLedPin = errorLedPin;
-    Serial.begin(9600);
+    Serial.begin(19200);
     pinMode(initLedPin, OUTPUT);
     pinMode(errorLedPin, OUTPUT);
 }

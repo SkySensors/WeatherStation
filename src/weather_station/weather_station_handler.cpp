@@ -48,6 +48,8 @@ void WeatherStationHandler::TakeMeasurements()
         sensorValue.unixTime = rtcHandler.GetDateTimeNow().unixtime();
         sensorValue.value = sensorHandler.ReadSensorValueBasedOnType(sensorValues.sensorType);
 
+        Serial.print(", type: " + String((int)sensorValues.sensorType) + " and value: " + String(sensorValue.value));
+        
         if (sensorValues.sensorValueAmount < sensorValueSize)
         {
             sensorValues.sensorValueAmount++;
@@ -57,6 +59,7 @@ void WeatherStationHandler::TakeMeasurements()
             LogHandler.LogError(500, 5, "Buffer overload, sensorValues has reached its limit!");
         }
     }
+    Serial.println();
 }
 
 void WeatherStationHandler::SendMeasurementsToServer()

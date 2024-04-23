@@ -12,7 +12,14 @@
 #include <DHT.h>
 #include <DS3231.h>
 #include <TinyGPSPlus.h>
-#include <SoftwareSerial.h>
+
+// #define ESP32
+
+#ifdef ESP32
+#define MAX_ANALOG_VALUE 4096
+#else
+#define MAX_ANALOG_VALUE 1024
+#endif
 
 enum class SensorType
 {
@@ -45,6 +52,10 @@ public:
         JsonArray array = arrayDoc.to<JsonArray>();
         for (int i = 0; i < sensorValueAmount; i++)
         {
+            if (isnan(sensorValues[i].value))
+            {
+                continue;
+            }
             JsonObject object = array.createNestedObject();
             object["unixTime"] = sensorValues[i].unixTime;
             object["value"] = sensorValues[i].value;
