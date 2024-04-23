@@ -1,5 +1,5 @@
 # Vejrstationen
-Vejrstationen er et system som kører en ESP32S og er ansvarlig for at tage vejr målinger og sende dem op til SkySensorsAPI’en via Wifi. Vejrstationen tager målinger for temperatur, fugtighed og lysstyrke. Desuden holder den styr på sin tid med hjælp fra et RTC (real time clock) modul og den synkroniserer tiden ved hjælp fra internettet. Derudover er der også installeret et GPS-modul som fortæller API’en hvor vejrstationen er hende.
+Vejrstationen er et system som kører en ESP32S og er ansvarlig for at tage vejr målinger og sende dem op til SkySensorsAPI’en via Wifi. Vejrstationen tager målinger for temperatur, fugtighed og lysstyrke. Desuden holder den styr på sin tid med hjælp fra et RTC (real time clock) modul og den synkroniserer tiden ved hjælp fra internettet. Derudover er der også installeret et GPS-modul som fortæller API’en hvor vejrstationen er lokaliseret.
 
 ## Lokal Udvikling
 ### Opsætning af projekt
