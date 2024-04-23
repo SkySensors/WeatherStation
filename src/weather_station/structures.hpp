@@ -109,7 +109,7 @@ public:
     {
         return status >= 200 && status <= 299;
     }
-    bool IsClientError()
+    bool IsServerError()
     {
         return status >= 500;
     }
