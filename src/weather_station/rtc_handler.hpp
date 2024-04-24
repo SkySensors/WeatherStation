@@ -28,7 +28,12 @@ public:
     // Used to synchronize the RTC with the server time
     void SynchronizeWithServerTime()
     {
+        int msStart = millis();
         unsigned long unixTime = skySensorsAPIHandler.GetServerTimeInUnixFormat();
+        int dt = millis() - msStart;
+        unixTime += dt / 1000 + 1;
+        delay(1000 - (dt % 1000));
+    
         if (unixTime == -1)
         {
             LogHandler.LogError(100, 10, "Failed to synchronize RTC clock to server time.");

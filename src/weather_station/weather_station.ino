@@ -87,6 +87,14 @@ void loop()
 {   
     int hourSeconds = rtcHandler->GetCurrentHourInSeconds();
 
+    // Sends mesurements to server when time slot inteval is triggered 
+    TimeSlot& timeSlot = weatherStationHandler->GetTimeSlot();
+    if (sendMeasurementsTrigger.ShouldTrigger(hourSeconds % timeSlot.intervalSeconds, timeSlot.secondToTriggerAt))
+    {
+        weatherStationHandler->SendMeasurementsToServer();
+        rtcHandler->SynchronizeWithServerTime();
+    }
+
     // Error checking if rtc clock is working
     if (!rtcHandler->IsRtcClockTicking())
     {
@@ -99,14 +107,6 @@ void loop()
         weatherStationHandler->TakeMeasurements();
     }
 
-    // Sends mesurements to server when time slot inteval is triggered 
-    TimeSlot& timeSlot = weatherStationHandler->GetTimeSlot();
-    if (sendMeasurementsTrigger.ShouldTrigger(hourSeconds % timeSlot.intervalSeconds, timeSlot.secondToTriggerAt))
-    {
-        weatherStationHandler->SendMeasurementsToServer();
-        rtcHandler->SynchronizeWithServerTime();
-    }
-
     // If no GPS location is found, then try to get the gps location from the satellites
     if (!gpsHandler->IsGpsLocationFound() && gpsHandler->AttemptSatelliteGpsCommunication())
     {
@@ -116,6 +116,4 @@ void loop()
             delay(1000);
         }
     }
-
-    delay(100);
 }
