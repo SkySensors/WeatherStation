@@ -94,7 +94,7 @@ public:
             {
                 LogHandler.LogError(25, 25, "Failed to send mesurements due an unexpected HttpRequest.");
             }
-            else if (httpResponse.IsClientError())
+            else if (httpResponse.IsServerError())
             {
                 LogHandler.LogError(50, 3, "Failed to send mesurements due to server errors.");
                 continue;
