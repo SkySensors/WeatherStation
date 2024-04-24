@@ -39,6 +39,13 @@ public:
     }
 
 public:
+    // Returns true if Rtc clock is working and ticking
+    bool IsRtcClockTicking()
+    {
+        return Wire.endTransmission() == 0;
+    }
+
+public:
     // Returns current DateTime
     DateTime GetDateTimeNow()
     {

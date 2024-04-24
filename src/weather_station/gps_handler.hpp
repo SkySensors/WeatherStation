@@ -29,8 +29,8 @@ public:
             {
                 GpsLocation gpsLocation = { gps.location.lat(), gps.location.lng() };
                 LogHandler.LogInfo("GPS location found, latitude:" + String(gpsLocation.latitude) + " longitude:" + String(gpsLocation.longitude));
-                
                 SaveGpsLocationToEEPROM(gpsLocation);
+
                 isNewGpsLocationFound = true;
                 return true;
             }
@@ -78,6 +78,12 @@ private:
         LogHandler.LogInfo("Saved GPS location to EEPROM.");
         
         // Added a hard delay here for safety reason in case this function gets called in an infinity loop
-        delay(5000);
+        for (int i = 0; i < 6; i++)
+        {
+            LogHandler.SetStatusLed(HIGH);
+            delay(500);
+            LogHandler.SetStatusLed(LOW);
+            delay(500);
+        }
     }
 };

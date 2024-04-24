@@ -16,13 +16,13 @@
 #define WIFI_PASSWORD "Jonas2208"
 #define LIGHT_SENSOR_ANALOG_PIN 36
 #define DHT_SENSOR_PIN 27
-#define INIT_LED_PIN 32
+#define STATUS_LED_PIN 32
 #define ERROR_LED_PIN 33
 #else
 #define ETHERNET_SHEILD_MAC "90:A2:DA:10:55:88"
 #define LIGHT_SENSOR_ANALOG_PIN A0
 #define DHT_SENSOR_PIN 7
-#define INIT_LED_PIN 13
+#define STATUS_LED_PIN 13
 #define ERROR_LED_PIN 12
 #endif
 
@@ -39,11 +39,11 @@ CountTrigger takeMeasurementsTrigger;
 void setup()
 {
     // Initialize LogHandler
-    LogHandler.Initialize(INIT_LED_PIN, ERROR_LED_PIN);
+    LogHandler.Initialize(STATUS_LED_PIN, ERROR_LED_PIN);
     LogHandler.LogInfo("Starting...");
     
     // Set status led to on to indicate that the weather station is being initialized
-    LogHandler.SetInitLedStatus(HIGH); 
+    LogHandler.SetStatusLed(HIGH); 
     
     // Initializes the network modules
     networkHandler = new NetworkHandler();
@@ -80,17 +80,17 @@ void setup()
     }
 
     // The status led turns off when the weather station is successfully initialized
-    LogHandler.SetInitLedStatus(LOW);
+    LogHandler.SetStatusLed(LOW);
 }
 
 void loop() 
 {   
     int hourSeconds = rtcHandler->GetCurrentHourInSeconds();
 
-    // Synchronizes the RTC every 30 minute
-    if (rtcSyncTrigger.ShouldTrigger(hourSeconds, 1800))
+    // Error checking if rtc clock is working
+    if (!rtcHandler->IsRtcClockTicking())
     {
-        rtcHandler->SynchronizeWithServerTime();
+        LogHandler.LogError(100, 10, "RTC clock is not ticking!");
     }
 
     // Takes measurements every two second
@@ -104,6 +104,7 @@ void loop()
     if (sendMeasurementsTrigger.ShouldTrigger(hourSeconds % timeSlot.intervalSeconds, timeSlot.secondToTriggerAt))
     {
         weatherStationHandler->SendMeasurementsToServer();
+        rtcHandler->SynchronizeWithServerTime();
     }
 
     // If no GPS location is found, then try to get the gps location from the satellites
@@ -116,5 +117,5 @@ void loop()
         }
     }
 
-    delay(250);
+    delay(100);
 }
