@@ -86,6 +86,7 @@ public:
     // Used to send all the sensor measurements to the API and clear the buffer
     void SendMeasurementsToServer()
     {
+        LogHandler.SetStatusLed(HIGH);
         for (int i = 0; i < weatherStation.sensorAmount; i++)
         {
             HttpResponse httpResponse = skySensorsAPIHandler.SendMesurementsToServer(sensorValuesArray[i]);
@@ -100,6 +101,7 @@ public:
             }
             sensorValuesArray[i].sensorValueAmount = 0;
         }
+        LogHandler.SetStatusLed(LOW);
     }
 
 public:

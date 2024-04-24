@@ -66,14 +66,24 @@ public:
     // Returns temperatur in celsius
     float ReadTemperatureSensor()
     {
-        return dhtSensor.readTemperature(false, false);
+        float value = dhtSensor.readTemperature(false, false);
+        if (isnan(value))
+        {
+            LogHandler.LogError(100, 1, "Reading NAN from DHT sensor!");
+        }
+        return value;
     }
 
     // Used to read current humidity sensor value
     // Returns humidity in procent
     float ReadHumiditySensor()
     {
-        return dhtSensor.readHumidity(false);
+        float value = dhtSensor.readHumidity(false);
+        if (isnan(value))
+        {
+            LogHandler.LogError(100, 1, "Reading NAN from DHT sensor!");
+        }
+        return value;
     }
 
 public:

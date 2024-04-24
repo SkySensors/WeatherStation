@@ -3,17 +3,17 @@
 inline class LogHandler
 {
 private:
-    byte initLedPin = 0;
+    byte statusLedPin = 0;
     byte errorLedPin = 0;
 
 public:
     // Used to initialize the log handler
-    void Initialize(byte initLedPin, byte errorLedPin)
+    void Initialize(byte statusLedPin, byte errorLedPin)
     {
-        this->initLedPin = initLedPin;
+        this->statusLedPin = statusLedPin;
         this->errorLedPin = errorLedPin;
         Serial.begin(19200);
-        pinMode(initLedPin, OUTPUT);
+        pinMode(statusLedPin, OUTPUT);
         pinMode(errorLedPin, OUTPUT);
     }
 
@@ -39,8 +39,8 @@ public:
 
 public:
     // Used to set status led either to HIGH or LOW
-    void SetInitLedStatus(bool status)
+    void SetStatusLed(bool status)
     {
-        digitalWrite(initLedPin, status);
+        digitalWrite(statusLedPin, status);
     }
 }LogHandler;

@@ -45,7 +45,8 @@ public:
     unsigned long GetServerTimeInUnixFormat()
     {
         HttpResponse httpResponse = SendGetRequest("/api/time");
-        return httpResponse.IsSuccess() ? (unsigned long)httpResponse.content.substring(0, 10).toDouble() : -1;
+        char* end;
+        return httpResponse.IsSuccess() ? strtol(httpResponse.content.substring(0, 10).c_str(), &end, 0) : -1;
     }
 
 private:
