@@ -18,7 +18,7 @@ Vejrstationen er et system som kører en ESP32S og er ansvarlig for at tage vejr
 
 ## Hardware
 ### Kredsløbsdiagram:
-![circuit](https://github.com/SkySensors/WhetherStation/assets/55685252/09f9a670-7770-4a9e-bd7b-a1d9306c6aab)
+![Kredsløbsdiagram](https://github.com/SkySensors/WhetherStation/assets/55685252/096c406d-4591-4c4d-b8f7-704f6210e2c9)
 
 ### Prototype på breadboard:
 ![IMG_1290](https://github.com/SkySensors/WhetherStation/assets/55685252/e47ab23b-7e4e-4b4a-8e05-fe8660de8485)
